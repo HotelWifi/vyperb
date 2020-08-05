@@ -3,7 +3,7 @@ const botconfig = require("../../botsettings.json");
 const genius = require('genius-lyrics')
 module.exports.run = async (client, message, args) => {
 
-    const G = new genius.Client('XqjpJuRSLOyNNSt73njbXopiO4oH7Jolee4RZySVscK_nVIugar3j1W-byW42v6e')
+    const G = new genius.Client(' ')
     message.channel.startTyping();
     G.tracks.search(message.content.split(' ').slice(1).join(' '), {limit: 1})
     .then(results => {

@@ -5,7 +5,7 @@ const axios = require('axios');
 module.exports.run = async (client, message, args) => {
     axios({
         method: 'get',
-        url: `https://www.googleapis.com/customsearch/v1?key=AIzaSyB7NGV8oC6zPCDRO_wwy9s31FO0IBemHlE&cx=011934660464717948299:jt6oyr7jaii&q=${args.join('+')}`,
+        url: `https://www.googleapis.com/customsearch/v1?key=keyhere:jt6oyr7jaii&q=${args.join('+')}`,
     }).then(function (res) {
         message.channel.send({
             embed:
