@@ -1,6 +1,6 @@
 const economy = require("../../util/economy");
 
-module.exports.run = async (message, args) => {
+module.exports.run = async (client, message, args) => {
   const mention = message.mentions.users.first();
 
   if (!mention) {
@@ -29,5 +29,5 @@ module.exports.config = {
   description: "Adds to a user's balance",
   usage: "addbal",
   accessableby: "v?addbal <user>",
-  aliases: ["baladd", "addcoins", "coinsadd" ],
+  aliases: ["baladd", "addcoins", "coinsadd"],
 };
