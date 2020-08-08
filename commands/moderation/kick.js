@@ -3,40 +3,44 @@ const botconfig = require("../../botsettings.json");
 
 module.exports.run = async (client, message, args) => {
     if (message.member.hasPermission("KICK_MEMBERS")) {
-        const user = message.mentions.users.first();
-        // If we have a user mentioned
-        if (user) {
-            // Now we get the member from the user
-            const member = message.guild.member(user);
-            // If the member is in the guild
-            if (member) {
-                /**
-                 * Kick the member
-                 * Make sure you run this on a member, not a user!
-                 * There are big differences between a user and a member
-                 */
-                member
-                    .kick('Optional reason that will display in the audit logs')
-                    .then(() => {
-                        // We let the message author know we were able to kick the person
-                        message.reply(`Successfully kicked ${user.tag}.`);
-                    })
-                    .catch(err => {
-                        // An error happened
-                        // This is generally due to the bot not being able to kick the member,
-                        // either due to missing permissions or role hierarchy
-                        message.reply('I was unable to kick the member.');
-                        // Log the error
-                        console.error(err);
-                    });
-            } else {
-                // The mentioned user isn't in this guild
-                message.reply("That user isn't in this guild!");
-            }
-            // Otherwise, if no user was mentioned
-        } else {
-            message.reply("You didn't mention the user to kick!");
-        }
+        const content = args.join(' ').toLowerCase();
+        const toKick = message.guild.members.cache.get(args[0]) || message.mentions.members.first() || message.guild.members.cache.find(m => m.displayName.toLowerCase().includes(content) || m.user.tag.toLowerCase().includes(content));
+        const reason = args.slice(1).join(" ")
+        
+
+        if (!args[0]) return message.channel.send('Please mention a member to ban!');
+
+        if (!toKick) return message.channel.send(`The user can't be found.`);
+        
+
+
+                    toKick.kick(`${reason}`)
+
+                    const none = new Discord.MessageEmbed()
+                    .setColor('#0099ff')
+                    .setTitle('🥳 You have succesfully kicked a member. 🥳')
+                    .addFields(
+                        { name: `Succesfully kicked ${toKick.user.tag}.`, value: `Reason: None provided.` }
+                    )
+                    .setTimestamp()
+                    .setFooter('Made by HotelWifi#1056', 'https://images-ext-2.discordapp.net/external/qeQtVcGyMUgDoROFr7lcLqGwtLXUgZU4W1gopGJbk7E/https/media.discordapp.net/attachments/736832388935450766/740459124386693140/ezgif.com-webp-to-jpg.jpg');
+        
+                const yes = new Discord.MessageEmbed()
+                    .setColor('#0099ff')
+                    .setTitle('🥳 You have succesfully kicked a member. 🥳')
+                    .addFields(
+                        { name: `Succesfully kicked ${toKick.user.tag}.`, value: `Reason: ${reason}` }
+                    )
+                    .setTimestamp()
+                    .setFooter('Made by HotelWifi#1056', 'https://images-ext-2.discordapp.net/external/qeQtVcGyMUgDoROFr7lcLqGwtLXUgZU4W1gopGJbk7E/https/media.discordapp.net/attachments/736832388935450766/740459124386693140/ezgif.com-webp-to-jpg.jpg');
+        
+                if (!reason) {
+                    message.channel.send(none)
+                } else {
+                    message.channel.send(yes)
+                }
+                 
+
     } else {
         message.reply("Insufficient Permissions!");
 
@@ -46,8 +50,8 @@ module.exports.run = async (client, message, args) => {
 
 module.exports.config = {
     name: "kick",
-    description: "kicks members from server",
+    description: "Kicks a member from the server.",
     usage: "kick",
     accessableby: "v?kick <user>",
     aliases: []
-    }
+}

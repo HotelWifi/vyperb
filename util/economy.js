@@ -1,4 +1,4 @@
-const { init: mongo } = require("./mongoose");
+const mongo = require("./mongoose");
 const profileSchema = require("../schemas/profile-schema");
 mongo();
 

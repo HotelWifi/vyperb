@@ -16,7 +16,7 @@ message.channel.send(mines)
 
 module.exports.config = {
     name: "ms",
-    description: "starts a game of mindsweeper",
+    description: "Starts a game of mindsweeper.",
     usage: "ms",
     accessableby: "v?ms",
     aliases: []

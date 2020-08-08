@@ -4,23 +4,58 @@ const ms = require("ms");
 
 module.exports.run = async (client, message, args) => {
     if (message.member.hasPermission("BAN_MEMBERS")) {
-        if (args[0] === 0) return message.reply('Please mention a user!')
-        var person = message.guild.member(message.mentions.users.first() || message.guild.members.cache.get(args[0]));
-        if (!person) return message.reply("I either cant find " + person + " or you didn't mention a person! Ex v?tban @user 1d")
-       
+        const content = args.join(' ').toLowerCase();
+        const toBan = message.guild.members.cache.get(args[0]) || message.mentions.members.first() || message.guild.members.cache.find(m => m.displayName.toLowerCase().includes(content) || m.user.tag.toLowerCase().includes(content));
+        const reason = args.slice(2).join(" ")
+
+        if (!args[0]) return message.channel.send('Please mention a member to ban!');
+
+        if (!toBan) return message.channel.send(`The user can't be found.`);
+
+        toBan.ban({ reason: `${reason}` })
 
         let time = args[1];
         if (!time) {
-            return message.reply("You didnt specify a time!");
+            return message.reply("Please specify a valid time! EX: 10s; 10m; 10d.");
         }
 
-        message.guild.members.ban(person)
+        const none = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle('⚡⚡ THE MIGHTY BAN HAMMER HAS AWAKEN ⚡⚡')
+            .addFields(
+                { name: `Succesfully banned ${toBan.user.tag}.`, value: `Reason: None provided.` }
+            )
+            .setTimestamp()
+            .setFooter('Made by HotelWifi#1056', 'https://images-ext-2.discordapp.net/external/qeQtVcGyMUgDoROFr7lcLqGwtLXUgZU4W1gopGJbk7E/https/media.discordapp.net/attachments/736832388935450766/740459124386693140/ezgif.com-webp-to-jpg.jpg');
 
-        message.channel.send(`@${person.user.tag} has now been banned for ${ms(ms(time))}`)
+        const yes = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle('⚡⚡ THE MIGHTY BAN HAMMER HAS AWAKEN ⚡⚡')
+            .addFields(
+                { name: `Succesfully banned ${toBan.user.tag} for ${time}`, value: `Reason: ${reason}` }
+            )
+            .setTimestamp()
+            .setFooter('Made by HotelWifi#1056', 'https://images-ext-2.discordapp.net/external/qeQtVcGyMUgDoROFr7lcLqGwtLXUgZU4W1gopGJbk7E/https/media.discordapp.net/attachments/736832388935450766/740459124386693140/ezgif.com-webp-to-jpg.jpg');
+
+        if (!reason) {
+            message.channel.send(none)
+        } else {
+            message.channel.send(yes)
+        }
+        const unBan = new Discord.MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle(`⚡⚡ THE MIGHTY BAN HAMMER HAS REVERSED ITSELF ⚡⚡`)
+            .addFields(
+                { name: `Succesfully unbanned @${toBan.user.tag}.`, value: `Reason: ${reason}` }
+            )
+            .setTimestamp()
+            .setFooter('Made by HotelWifi#1056', 'https://images-ext-2.discordapp.net/external/qeQtVcGyMUgDoROFr7lcLqGwtLXUgZU4W1gopGJbk7E/https/media.discordapp.net/attachments/736832388935450766/740459124386693140/ezgif.com-webp-to-jpg.jpg');
+
+
         setTimeout(function () {
 
-            message.guild.members.unban(person)
-            message.channel.send(`@${person.user.tag} has been unbanned.`)
+            message.guild.members.unban(toBan)
+            message.channel.send(unBan)
         }, ms(time));
     } else {
         message.reply("Insufficient Permissions!");
@@ -30,7 +65,7 @@ module.exports.run = async (client, message, args) => {
 
 module.exports.config = {
     name: "tban",
-    description: "temporarialy bans members from server",
+    description: "Temporarialy bans a member from a server.",
     usage: "tban",
     accessableby: "v?tban <user>",
     aliases: []

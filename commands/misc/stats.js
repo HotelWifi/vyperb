@@ -9,15 +9,18 @@ module.exports.run = async (client, message, args) => {
 
     const embed = new Discord.MessageEmbed()
 	.setColor('#0099ff')
-	.setTitle('Current Stats as of ' + new Date())
-	.setDescription('Some description here')
+    .setTitle('Vote for me here!')
+    .setURL('https://discord.boats/bot/736832062757142580')
+	.setDescription('**Here are my current stats:**')
 	.setThumbnail(client.user.displayAvatarURL())
 	.addFields(
-		{ name: 'Server Count', value: [scount] },
-        { name: 'Member Count', value: [mcount] },
-        { name: 'Text Channel Count', value: [tcount] },
-        { name: 'Voice Channel Count', value: [vcount] }
-	);
+		{ name: '``Server Count:``', value: [scount] },
+        { name: '``Member Count:``', value: [mcount] },
+        { name: '``Text Channel Count:``', value: [tcount] },
+        { name: '``Voice Channel Count:``', value: [vcount] }
+    )
+    .setTimestamp()
+    .setFooter('Made by HotelWifi#1056', 'https://images-ext-2.discordapp.net/external/qeQtVcGyMUgDoROFr7lcLqGwtLXUgZU4W1gopGJbk7E/https/media.discordapp.net/attachments/736832388935450766/740459124386693140/ezgif.com-webp-to-jpg.jpg');
 
     message.channel.send(embed)
 
@@ -26,7 +29,7 @@ module.exports.run = async (client, message, args) => {
 
 module.exports.config = {
     name: "stats",
-    description: "shows the bot's stats",
+    description: "Shows the bot's stats.",
     usage: "stats",
     accessableby: "v?stats",
     aliases: []

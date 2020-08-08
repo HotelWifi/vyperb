@@ -15,7 +15,7 @@ module.exports.run = async (client, message, args) => {
 }
     module.exports.config = {
     name: "lyrics",
-    description: "shows lyrics",
+    description: "Searches for lyrics of a song.",
     usage: "lyrics",
     accessableby: "v?lyrics <song name>",
     aliases: []

@@ -14,7 +14,7 @@ module.exports.run = async (client, message, args) => {
 }
 module.exports.config = {
     name: "ttt",
-    description: "starts a game of tictactoe",
+    description: "Starts a game of tictactoe.",
     usage: "ttt",
     accessableby: "v?ttt <user>",
     aliases: []

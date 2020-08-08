@@ -26,7 +26,7 @@ module.exports.run = async (message, args) => {
 
 module.exports.config = {
   name: "addbal",
-  description: "Adds to a user's balance",
+  description: "Adds to a user's balance.",
   usage: "addbal",
   accessableby: "v?addbal <user>",
   aliases: ["baladd", "addcoins", "coinsadd" ],

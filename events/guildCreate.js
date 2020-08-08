@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Guild = require('../models/guild');
 
 module.exports = async (client, guild) => {
+    guild.ownerID.send('Hi')
     guild = new Guild({
         _id: mongoose.Types.ObjectId(),
         guildID: guild.id,
